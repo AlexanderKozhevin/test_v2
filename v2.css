@@ -50,3 +50,16 @@
 @media(min-width:741px) and (max-width:1000px){.pillar-sculpture{padding-inline:20px;min-height:545px}.pillar-art{height:245px;margin-inline:-20px}.pillar-sculpture h3{font-size:28px}.pillar-sculpture p{font-size:12px}.pillar-sculpture .pillar-top{font-size:9px}}
 @media(max-width:740px){.v2-pillars{gap:19px}.pillar-sculpture{padding:24px;min-height:560px;max-width:480px;width:100%;margin-inline:auto}.pillar-art{height:285px;margin-inline:-24px;margin-bottom:12px}.pillar-sculpture h3{width:auto;font-size:35px;margin-top:10px}.pillar-sculpture p{max-width:none;font-size:13px}.pillar-word{font-size:81px}.pillar-sculpture .pillar-link{margin-top:auto;font-size:12px}.pillar-copy{padding-bottom:22px}.pillar-object{inset:-17px -9px -10px}}
 @media(prefers-reduced-motion:reduce){.pillar-sculpture .pillar-object,.pillar-sculpture:hover,.pillar-sculpture:hover .pillar-orbit,.pillar-sculpture:hover .pillar-arrow svg{transform:none}.pillar-sculpture *{transition:none!important}.pillar-orbit{display:none}}
+
+/* Optical dispersion: separate RGB channels, animate only their offsets. */
+.chromatic-filters{position:absolute;overflow:hidden;pointer-events:none}
+.pillar-sculpture{--fringe:.65px}
+.pillar-object.chromatic-object{isolation:isolate;mix-blend-mode:screen;mask-image:radial-gradient(ellipse 50% 60% at 50% 50%,#000 70%,transparent 100%)}
+.pillar-object.chromatic-object img{mask-image:none;position:absolute;inset:0;display:block;mix-blend-mode:screen;transition:transform .45s cubic-bezier(.16,1,.3,1)}
+.pillar-sculpture .pillar-object.chromatic-object .chroma-r{filter:url(#chroma-r);transform:translate3d(calc(var(--fringe) * -1),calc(var(--fringe) * -.3),0)}
+.pillar-sculpture .pillar-object.chromatic-object .chroma-g{filter:url(#chroma-g);transform:translate3d(0,calc(var(--fringe) * .15),0)}
+.pillar-sculpture .pillar-object.chromatic-object .chroma-b{filter:url(#chroma-b);transform:translate3d(var(--fringe),calc(var(--fringe) * .3),0)}
+.pillar-sculpture:focus-visible{--fringe:2.2px}
+@media(hover:hover) and (pointer:fine){.pillar-sculpture:hover{--fringe:2.2px}}
+@media(max-width:740px){.pillar-sculpture{--fringe:.45px}}
+@media(prefers-reduced-motion:reduce){.pillar-sculpture,.pillar-sculpture:hover,.pillar-sculpture:focus-visible{--fringe:.45px}.pillar-object.chromatic-object img{transition:none!important}}
