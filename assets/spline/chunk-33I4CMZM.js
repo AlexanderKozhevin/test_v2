@@ -1,0 +1,1 @@
+import{a as e}from"./chunk-JQ2WF62T.js";function c(){if(o=!0,!t)return n||(n=(async function(){let a=await import("./opentype-AM5JKDUV.js");i(a),t=!0})())}var i,n,o,s,t,r=e(()=>{o=!1,s=new Promise(a=>{i=a}),t=!1});export{o as a,s as b,c,r as d};

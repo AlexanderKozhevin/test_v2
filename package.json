@@ -1,0 +1,23 @@
+{
+  "name": "edgecenter-spline-v2",
+  "version": "2.0.0",
+  "description": "EdgeCenter V2 — infrastructure for big ideas, built with Spline",
+  "main": "app.js",
+  "scripts": {
+    "build": "python3 src/build_site.py && esbuild src/spline-controller.js --bundle --minify --splitting --format=esm --target=es2022 --outdir=assets --chunk-names=spline/[name]-[hash]",
+    "serve": "python3 -m http.server 4317 --bind 127.0.0.1",
+    "check": "node --check site.js && node --check app.js && python3 src/check_site.py"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@splinetool/runtime": "2.0.41"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.9",
+    "playwright": "1.63.0"
+  },
+  "private": true
+}

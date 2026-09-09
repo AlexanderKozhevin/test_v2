@@ -1,0 +1,1 @@
+import{a as c}from"./chunk-JQ2WF62T.js";function r(n){return Math.round(1e9*n)}function i(n,t){return(function(e){let a=Math.trunc(e/1e9),o=e-1e9*a;return u(u(a)+u(u(o)/u(1e9)))})(r(n)-r(t))}function h(n,t){return(r(n)+r(t))/1e9}function s(n,t,e){return r(n)-r(t)<r(e)}var u,f=c(()=>{u=Math.fround});export{i as a,h as b,s as c,f as d};

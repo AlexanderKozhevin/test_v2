@@ -1,0 +1,1 @@
+import{a as c}from"./chunk-JQ2WF62T.js";function o(t){return{all:t=t||new Map,on:function(e,n){var i=t.get(e);i?i.push(n):t.set(e,[n])},off:function(e,n){var i=t.get(e);i&&(n?i.splice(i.indexOf(n)>>>0,1):t.set(e,[]))},emit:function(e,n){var i=t.get(e);i&&i.slice().map(function(a){a(n)}),(i=t.get("*"))&&i.slice().map(function(a){a(e,n)})}}}var f=c(()=>{});export{o as a,f as b};

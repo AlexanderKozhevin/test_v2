@@ -1,0 +1,1 @@
+import{a as s}from"./chunk-JQ2WF62T.js";function c(t,n){e.set(t,n)}function i(t){return e.get(t)}var e,a,o=s(()=>{e=new Map;a=class{constructor(t){this.eventContext=t,this.domEventsNeeded=new Set,this.hasVideoAction=!1}connect(){}disconnect(){}dispose(){this.disconnect(),this.eventContext=void 0}}});export{c as a,i as b,a as c,o as d};

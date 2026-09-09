@@ -1,0 +1,1 @@
+import{a as t}from"./chunk-JQ2WF62T.js";function o(e){r.add(e)}function i(e){if(r.size===0)return;let n=Array.from(r);r.clear();for(let a of n)a.render(e)}var r,f=t(()=>{r=new Set});export{o as a,i as b,f as c};

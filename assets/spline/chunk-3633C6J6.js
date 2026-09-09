@@ -1,0 +1,1 @@
+import{a as s}from"./chunk-JQ2WF62T.js";function f(n,t){a.set(n,t)}function o(n){return a.get(n)}function i(){return a}function d(n,t){u.set(n,t)}function p(n){return u.get(n)}function v(n,t){let e=`${t}:${n}`;r.has(e)||r.add(e)}var a,u,r,c=s(()=>{a=new Map;u=new Map;r=new Set});export{f as a,o as b,i as c,d,p as e,v as f,c as g};

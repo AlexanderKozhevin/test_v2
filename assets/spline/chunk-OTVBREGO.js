@@ -1,0 +1,1 @@
+import{a}from"./chunk-JQ2WF62T.js";function y(o){let t=!1;return o.scene.objects.traverse((s,e)=>{(e.type==="Mesh"&&e.geometry.type==="UIGeometry"||e.type==="Page"&&e.uiFrame!==void 0)&&(t=!0)}),t}var r=a(()=>{});export{y as a,r as b};

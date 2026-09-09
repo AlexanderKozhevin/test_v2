@@ -1,0 +1,1 @@
+import{h as i,w as o}from"./chunk-RRN5D3ST.js";import{a as c}from"./chunk-JQ2WF62T.js";function s(n){if(n.component){let e=n.component.instances.indexOf(n);e>=0&&n.component.instances.splice(e,1);for(let t of n.children)i.is(t)&&s(t)}}var f=c(()=>{o()});export{s as a,f as b};

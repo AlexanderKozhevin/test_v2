@@ -1,0 +1,1 @@
+import{a as n}from"./chunk-JQ2WF62T.js";function o(t){e=t}function u(t){if(e!==void 0)return`${e}/${t}`;let r=typeof import.meta.url=="string"?import.meta.url:"",i=r.lastIndexOf("/");return i>0?r.slice(0,i+1)+t:t}var e,a=n(()=>{});export{o as a,u as b,a as c};

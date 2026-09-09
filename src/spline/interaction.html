@@ -1,0 +1,48 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#132548}.controls{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:3px;padding:5px;background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.9);border-radius:16px;box-shadow:0 10px 40px #19335312;backdrop-filter:blur(18px);white-space:nowrap}button{border:0;background:transparent;color:#415371;border-radius:11px;padding:11px 14px;min-height:40px;font:500 12px Arial;cursor:pointer;transition:background .2s,color .2s}button[aria-pressed=true]{background:#132548;color:#fff}button:not([aria-pressed=true]):hover{background:#dae4ed;color:#132548}button:focus-visible{outline:3px solid #2455eb;outline-offset:2px}.hint{position:fixed;top:20px;right:22px;font-size:10px;letter-spacing:.04em;color:#62758a}.status{position:fixed;bottom:86px;text-align:center;left:10%;width:80%;font-size:12px;color:#52657b;pointer-events:none}@media(max-width:480px){.controls{gap:0;bottom:14px;max-width:98%;padding:4px}button{font-size:10px;padding:10px 9px}.status{bottom:73px;font-size:11px}.hint{font-size:9px}}
+</style></head><body><div class="hint">ПОТЯНИТЕ, ЧТОБЫ ПОВЕРНУТЬ ↔</div><div class="status" aria-live="polite">Три технологии. Пространство для вашей идеи.</div><nav class="controls" aria-label="Состав инфраструктуры"><button data-mode="system" aria-pressed="true">Вся система</button><button data-mode="cloud" aria-pressed="false">Облако</button><button data-mode="cdn" aria-pressed="false">CDN</button><button data-mode="security" aria-pressed="false">Защита</button><button data-mode="exploded" aria-pressed="false">Разобрать ↗</button></nav><script>
+(async()=>{
+await spline.ready;
+const names=['Cloud Module','CDN Frame','Security Frame','Idea','Cloud Content','CDN Content','Security Content'];
+const objects=await Promise.all(names.map(n=>spline.findObjectByName(n)));
+if(objects.some(o=>!o)) return;
+const base=objects.map(o=>({position:{...o.position},scale:{...o.scale},visible:o.visible}));
+let current=base.map(p=>({...p,position:{...p.position},scale:{...p.scale}})), frame=0, version=0, selected='system';
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+const descriptions={system:'Три технологии. Пространство для вашей идеи.',cloud:'Облако — вычислительная мощность для роста.',cdn:'CDN — короткий путь от продукта к аудитории.',security:'Защита — уверенность на любом масштабе.',exploded:'Вычислять. Доставлять. Защищать.'};
+async function setMode(mode){
+if(!descriptions[mode]) return;
+selected=mode; const token=++version; cancelAnimationFrame(frame);
+document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
+document.querySelector('.status').textContent=descriptions[mode];
+const target=base.map(p=>({...p,position:{...p.position},scale:{...p.scale}}));
+const index=['cloud','cdn','security'].indexOf(mode);
+target[3].visible=mode==='system';
+for(let i=0;i<3;i++){
+target[i+4].visible=mode==='exploded'||index===i;
+if(mode==='exploded'){
+target[i].position={x:(i-1)*207,y:0,z:-12};
+target[i].scale={x:.63,y:.63,z:.63};
+target[i+4].position={x:(i-1)*207,y:0,z:36};
+target[i+4].scale={x:.63,y:.63,z:.63};
+}else if(index>=0){target[i].position.z=i===index?82:-45-(i===0?0:i===1?1:2)*73;}
+}
+const from=current.map(p=>({...p,position:{...p.position},scale:{...p.scale}}));
+const start=performance.now(), duration=reduced.matches?0:850;
+await Promise.all(objects.map((o,i)=>spline.updateObject(o.id,{visible:target[i].visible})));
+async function tick(now){
+if(token!==version)return;
+const t=duration?Math.min(1,(now-start)/duration):1,e=1-Math.pow(1-t,4);
+current=target.map((p,i)=>{const r={position:{},scale:{},visible:p.visible};for(const k of ['position','scale'])for(const axis of ['x','y','z'])r[k][axis]=from[i][k][axis]+(p[k][axis]-from[i][k][axis])*e;return r;});
+await Promise.all(objects.map((o,i)=>spline.updateObject(o.id,current[i])));
+if(t<1&&token===version)frame=requestAnimationFrame(tick);
+}
+frame=requestAnimationFrame(tick);
+window.parent.postMessage({type:'edge-spline:mode',mode},'*');
+}
+document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
+window.addEventListener('message',e=>{if(e.source!==window.parent||e.data?.type!=='edge-spline:set-mode')return;setMode(e.data.mode);});
+window.addEventListener('edge-spline:set-mode',e=>setMode(e.detail));
+window.parent.postMessage({type:'edge-spline:ready'},'*');
+})().catch(e=>console.error('EdgeCenter scene:',e));
+</script></body></html>
