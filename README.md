@@ -1,21 +1,14 @@
-# EdgeCenter — Infrastructure for big ideas · V2
+# EdgeCenter V2 · Light studio
 
-A 24-page, responsive EdgeCenter design concept with a real, editable Spline scene. The original V1 remains in `AlexanderKozhevin/some_test`.
+A 24-page responsive design concept based on the original light EdgeCenter direction, enhanced with an editable Spline scene.
 
 **Website:** https://alexanderkozhevin.github.io/test_v2/
 
-**Spline source:** https://app.spline.design/file/145279db-c669-4841-9b93-72b78eb5a903 (opens in the owner's Spline workspace)
+**Spline source:** https://app.spline.design/file/145279db-c669-4841-9b93-72b78eb5a903
 
-## Experience
+The original light palette, headline and hero proof points are restored. Three matte metal/glass modules have five interactive states: system, cloud, CDN, security and disassembled. Strong glow, chromatic splitting, moving lights and temporal ambient shadows have been removed.
 
-- A silver Cloud frame, navy CDN frame, and frosted glass Security frame assemble around the idea core.
-- Glow edition: a dark hero, emissive contours, iridescent materials, restrained native Spline bloom, and a pointer-reactive light. Cyan, lavender, and mint identify the products. Product cards echo these colors with cursor-following illumination, new high-detail product artwork, and bounded pointer parallax. The three lazy-loaded WebP illustrations total 323,032 bytes. [Artwork prompts](src/pillar-art-prompts.md).
-- Five modes: system, cloud, CDN, security, and disassembled. Cloud reveals server trays, CDN an orbital network, Security a shield.
-- Native Spline materials, geometry, lighting, orbit controls, and HTML interaction logic. No video masquerading as interactive 3D.
-- Product pages open the same system in the relevant product mode. The remaining pages retain the approved visual system with refined typography and surfaces.
-- A connected product narrative, searchable catalogue, product demos, industry pages, editorial pages, pricing, and a contact draft form.
-
-## Run and build
+## Run
 
 ```sh
 npm ci
@@ -24,20 +17,16 @@ npm run check
 npm run serve
 ```
 
-The project is static HTML/CSS/JS and can be served from a GitHub Pages project subdirectory. `src/build_site.py` generates 24 pages. `src/content.py` holds product content. `src/v2-home.html` and `v2.css` define the V2 direction.
+`src/build_site.py` generates 24 static pages. The project works from a GitHub Pages subdirectory. `src/v2-home.html` and `v2.css` define the light design. `src/spline-controller.js` loads the pinned Spline runtime; `src/spline/interaction.html` is the scene's sandboxed control overlay.
 
-`src/spline-controller.js` loads the pinned Spline runtime dynamically. `src/spline/interaction.html` is the editable motion/interaction document attached to the Spline file. After changing it in Spline, choose **Export → Code Export → Update Code Export**, then download the fresh `.splinecode` into `assets/spline/infrastructure.splinecode`.
+After editing the Spline scene, use **Export → Code Export → Update Code Export**, then download the fresh export into `assets/spline/infrastructure.splinecode`.
 
-## Performance and accessibility
+## Rendering and accessibility
 
-The scene file is approximately 224 KiB; its static WebP cover is 23 KB. The runtime loads only near the visible scene. Phones, reduced-motion users, and data-saving connections start with a static cover and an explicit 3D button. Rendering pauses offscreen and in background tabs. Transitions settle without an idle animation loop. WebGPU and WebGL are supported.
+Spline runs in manual render mode with bounded render bursts during interaction and transitions. There is no idle animation loop. Rendering stops offscreen and in hidden tabs. Desktop exports use 2× pixel density. Phones, reduced-motion users and data-saving connections receive a cover and explicit 3D button first. Keyboard controls and the static page remain usable without a running 3D scene.
 
-The scene's sandboxed HTML overlay contains keyboard-accessible buttons and live status text. Site content and product navigation remain available without 3D. JavaScript-free visitors see the cover and the complete static page. A failed scene load exposes a retry button.
+The background color is shared by the canvas and its container. The cover is a capture of the real scene. The compact 36-second H.264/AAC intro (9.1 MB) only loads on request. The original PDF brandbook remains linked in the footer.
 
-The existing 36-second intro is served as the compact H.264/AAC MP4 (9.1 MB), with `preload="none"`. It is not downloaded until requested. The original PDF brandbook remains available from the footer.
+This is a design demonstration. Contact forms prepare a local draft; no backend submission occurs. The original V1 remains in `AlexanderKozhevin/some_test`.
 
-## Scope
-
-This is a design demonstration, not the official EdgeCenter website. Contact forms prepare a draft in the browser; they do not submit information to a backend. Login and technical documentation links point to the actual services. Price/source notes remain visible on the relevant pages.
-
-See [DESIGN.md](DESIGN.md) for the visual rationale and template research.
+See [DESIGN.md](DESIGN.md) and [QA.md](QA.md).
