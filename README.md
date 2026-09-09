@@ -9,7 +9,7 @@ A 24-page, responsive EdgeCenter design concept with a real, editable Spline sce
 ## Experience
 
 - A silver Cloud frame, navy CDN frame, and frosted glass Security frame assemble around the idea core.
-- Glow edition: a dark hero, emissive contours, iridescent materials, restrained native Spline bloom, and a pointer-reactive light. Cyan, lavender, and mint identify the products. Product cards echo these colors with cursor-following illumination.
+- Glow edition: a dark hero, emissive contours, iridescent materials, restrained native Spline bloom, and a pointer-reactive light. Cyan, lavender, and mint identify the products. Product cards echo these colors with cursor-following illumination, new high-detail product artwork, and bounded pointer parallax. The three lazy-loaded WebP illustrations total 323,032 bytes. [Artwork prompts](src/pillar-art-prompts.md).
 - Five modes: system, cloud, CDN, security, and disassembled. Cloud reveals server trays, CDN an orbital network, Security a shield.
 - Native Spline materials, geometry, lighting, orbit controls, and HTML interaction logic. No video masquerading as interactive 3D.
 - Product pages open the same system in the relevant product mode. The remaining pages retain the approved visual system with refined typography and surfaces.
