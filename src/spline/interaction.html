@@ -1,5 +1,6 @@
 <!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#132548}.controls{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:3px;padding:5px;background:rgba(255,255,255,.82);border:1px solid rgba(255,255,255,.9);border-radius:16px;box-shadow:0 10px 40px #19335312;backdrop-filter:blur(18px);white-space:nowrap}button{border:0;background:transparent;color:#415371;border-radius:11px;padding:11px 14px;min-height:40px;font:500 12px Arial;cursor:pointer;transition:background .2s,color .2s}button[aria-pressed=true]{background:#132548;color:#fff}button:not([aria-pressed=true]):hover{background:#dae4ed;color:#132548}button:focus-visible{outline:3px solid #2455eb;outline-offset:2px}.hint{position:fixed;top:20px;right:22px;font-size:10px;letter-spacing:.04em;color:#62758a}.status{position:fixed;bottom:86px;text-align:center;left:10%;width:80%;font-size:12px;color:#52657b;pointer-events:none}@media(max-width:480px){.controls{gap:0;bottom:14px;max-width:98%;padding:4px}button{font-size:10px;padding:10px 9px}.status{bottom:73px;font-size:11px}.hint{font-size:9px}}
+:root{--glow:#74ffe2;--tint:116,255,226}*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;color:#e9f1ff}.controls{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);display:flex;gap:3px;padding:6px;background:rgba(12,23,39,.78);border:1px solid #a3bcd52b;border-radius:16px;box-shadow:inset 0 1px 0 #ffffff10,0 16px 40px #0004,0 0 30px rgba(var(--tint),.055);backdrop-filter:blur(20px);white-space:nowrap;transition:box-shadow .6s}button{position:relative;border:1px solid transparent;background:transparent;color:#aebdd2;border-radius:10px;padding:11px 13px;min-height:40px;font:500 12px Arial;cursor:pointer;transition:background .25s,color .25s,box-shadow .3s,border-color .3s}button[aria-pressed=true]{color:#efffff;background:rgba(var(--tint),.09);border-color:rgba(var(--tint),.4);box-shadow:inset 0 0 18px rgba(var(--tint),.06),0 0 16px rgba(var(--tint),.1)}button[aria-pressed=true]:after{content:'';position:absolute;bottom:-7px;left:24%;right:24%;height:2px;background:var(--glow);box-shadow:0 0 12px var(--glow);border-radius:2px}button:not([aria-pressed=true]):hover{background:#d8eaff12;color:#fff}button:focus-visible{outline:2px solid var(--glow);outline-offset:3px}.hint{position:fixed;top:20px;right:22px;font-size:9px;letter-spacing:.06em;color:#92a5c2}.status{position:fixed;bottom:92px;text-align:center;left:7%;width:86%;font-size:12px;color:#a9bad0;pointer-events:none}@media(max-width:480px){.controls{gap:0;bottom:14px;max-width:98%;padding:5px}button{font-size:10px;padding:10px 8px;min-height:40px}.status{bottom:77px;font-size:11px}.hint{font-size:8px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style></head><body><div class="hint">ПОТЯНИТЕ, ЧТОБЫ ПОВЕРНУТЬ ↔</div><div class="status" aria-live="polite">Три технологии. Пространство для вашей идеи.</div><nav class="controls" aria-label="Состав инфраструктуры"><button data-mode="system" aria-pressed="true">Вся система</button><button data-mode="cloud" aria-pressed="false">Облако</button><button data-mode="cdn" aria-pressed="false">CDN</button><button data-mode="security" aria-pressed="false">Защита</button><button data-mode="exploded" aria-pressed="false">Разобрать ↗</button></nav><script>
 (async()=>{
 await spline.ready;
@@ -9,12 +10,22 @@ if(objects.some(o=>!o)) return;
 const base=objects.map(o=>({position:{...o.position},scale:{...o.scale},visible:o.visible}));
 let current=base.map(p=>({...p,position:{...p.position},scale:{...p.scale}})), frame=0, version=0, selected='system';
 const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
+const beacon=await spline.findObjectByName('Idea Beacon');
+let lastPointer=0;
+window.addEventListener('pointermove',e=>{
+if(reduced.matches||e.pointerType==='touch'||e.timeStamp-lastPointer<48||!beacon)return;
+lastPointer=e.timeStamp;
+spline.updateObject(beacon.id,{position:{x:(e.clientX/innerWidth-.5)*150,y:65-(e.clientY/innerHeight-.5)*100,z:220}});
+},{passive:true});
+document.documentElement.addEventListener('pointerleave',()=>{if(beacon)spline.updateObject(beacon.id,{position:{x:0,y:65,z:220}});},{passive:true});
+
 const descriptions={system:'Три технологии. Пространство для вашей идеи.',cloud:'Облако — вычислительная мощность для роста.',cdn:'CDN — короткий путь от продукта к аудитории.',security:'Защита — уверенность на любом масштабе.',exploded:'Вычислять. Доставлять. Защищать.'};
 async function setMode(mode){
 if(!descriptions[mode]) return;
 selected=mode; const token=++version; cancelAnimationFrame(frame);
 document.querySelectorAll('[data-mode]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.mode===mode)));
 document.querySelector('.status').textContent=descriptions[mode];
+const tints={system:['#74ffe2','116,255,226'],cloud:['#89d7ff','137,215,255'],cdn:['#b4a5ff','180,165,255'],security:['#74ffe2','116,255,226'],exploded:['#93f6ff','147,246,255']};document.documentElement.style.setProperty('--glow',tints[mode][0]);document.documentElement.style.setProperty('--tint',tints[mode][1]);
 const target=base.map(p=>({...p,position:{...p.position},scale:{...p.scale}}));
 const index=['cloud','cdn','security'].indexOf(mode);
 target[3].visible=mode==='system';

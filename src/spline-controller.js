@@ -14,7 +14,7 @@ for (const stage of document.querySelectorAll('[data-spline]')) {
   const onMessage = e => {
     if (e.source !== viewport.querySelector('iframe')?.contentWindow) return;
     if (e.data?.type === 'edge-spline:ready') sendMode();
-    if (e.data?.type === 'edge-spline:mode') stage.dataset.activeMode = e.data.mode;
+    if (e.data?.type === 'edge-spline:mode') { stage.dataset.activeMode = e.data.mode; const hero = stage.closest('.v2-hero'); if (hero) hero.dataset.activeMode = e.data.mode; }
   };
   window.addEventListener('message', onMessage);
   async function load() {
@@ -26,7 +26,7 @@ for (const stage of document.querySelectorAll('[data-spline]')) {
       try {
         const {Application} = await import('@splinetool/runtime');
         app = new Application(canvas, {renderMode:'auto', htmlContentMode:'sandbox'});
-        await app.load(new URL('assets/spline/infrastructure.splinecode', base).href);
+        await app.load(new URL('assets/spline/infrastructure.splinecode?v=glow', base).href);
         if (!app.findObjectByName('Infrastructure')) throw new Error('Incomplete scene');
         app.setZoom(compact.matches ? .90 : 1.10);
         // The export compiles materials asynchronously. Keep the poster during first paint.
